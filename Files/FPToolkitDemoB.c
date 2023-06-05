@@ -64,33 +64,13 @@ int main() {
   // printf("%f", gap);
 
   // must do this before you do 'almost' any other graphical tasks
-  swidth = 400;
-  sheight = 400;
+  swidth = 800;
+  sheight = 800;
   G_init_graphics(swidth, sheight); // interactive graphics
 
   // clear the screen in a given color
   G_rgb(0.3, 0.3, 0.3); // dark gray
   G_clear();
-
-  // draw a point
-  // G_rgb (1.0, 0.0, 0.0) ; // red
-  // G_point (200, 580) ; // hard to see
-
-  // task 1: graph paper
-  for (int i = 0; i < row_col; i++) {
-    G_rgb(1.0, 1.0, 1.0); 
-    cur_location = i * gap;
-    G_line(0, cur_location, swidth - 1, cur_location);
-    G_line(cur_location, 0, cur_location, sheight - 1);
-  }
-
-  // task 2: lines with n
-  // (n = # of lines to draw)
-  for (int i = 0; i < num_lines; i++) {
-    G_rgb(1.0, 1.0, 1.0); 
-    cur_location = i * gap;
-    G_line(0, sheight - 1 - (cur_location), swidth - 1 - (cur_location), 0);
-  }
 
   //===============================================
 
@@ -100,15 +80,4 @@ int main() {
   //   G_save_image_to_file("demo.xwd") ;
   G_save_to_bmp_file("demo.bmp");
 
-  // double slope = dy/dx ;
-  double iterator = 0.001;
-  double current = [x, y]
-
-  while (current <= end)
-    {
-      current[0] *= dx * iterator;
-      current[1] *= dy * iterator;
-
-      iterator += 0.001
-    }
 }
