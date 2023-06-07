@@ -46,33 +46,52 @@ note : the 'X' in -X11 is capitalized
 
 #include "FPToolkit.c"
 
+struct GRAMMAR
+{
+  char[3] axiom;
+  char [3] value;
+  char [100] rule;
+};
+
+void set_fern()
+// FERN GRAMMAR
+// Axiom: A
+// A-> F-[[A]+A]+F[+FA]-A
+// F-> FF
+
+// angle: 22.5
+
+// struct
+// axiom
+// rules
+// start angle
+// delta
+
 int main() {
   int swidth, sheight;
-  double lowleftx, lowlefty, width, height;
-  double x[10], y[10];
-  double numxy;
-  double a[20], b[20];
-  double numab;
-  double gap;
-  double cur_location;
-  int row_col;
-  int num_lines;
+  struct GRAMMAR[5] grammar;
 
-  printf("Enter a value for n (n = # of rows/columns in graph): ");
-  scanf("%d", &row_col);
-  // gap = swidth / row_col;
-  // printf("%f", gap);
-
-  // must do this before you do 'almost' any other graphical tasks
-  swidth = 800;
-  sheight = 800;
+  swidth = 1000;
+  sheight = 1000;
   G_init_graphics(swidth, sheight); // interactive graphics
 
   // clear the screen in a given color
-  G_rgb(0.3, 0.3, 0.3); // dark gray
+  G_rgb(0, 0, 0);
   G_clear();
 
   //===============================================
+  char string[100000];
+  string[0] = '\0';
+  double start_angle = 0;
+
+  double delta = M_PI/6; // koch
+
+  scanf("%s", string);
+
+  // strcpy()
+
+  G_rgb(1, 1, 1);
+  string_interpreter(grammar, string, angle);
 
   int key;
   key = G_wait_key(); // pause so user can see results
