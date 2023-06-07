@@ -45,6 +45,7 @@ int main()
   G_init_graphics(swidth, sheight);
 
   mandelbrot( 0, 0, 2, 100, swidth);
+  // mandelbrot( 0, 0, 2, 100, swidth);
 
   G_wait_key();
   // complex a,b,c,d,e,f,g,h ;

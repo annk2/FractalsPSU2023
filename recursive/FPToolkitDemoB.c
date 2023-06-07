@@ -48,28 +48,13 @@ note : the 'X' in -X11 is capitalized
 
 int main() {
   int swidth, sheight;
-  double lowleftx, lowlefty, width, height;
-  double x[10], y[10];
-  double numxy;
-  double a[20], b[20];
-  double numab;
-  double gap;
-  double cur_location;
-  int row_col;
-  int num_lines;
 
-  printf("Enter a value for n (n = # of rows/columns in graph): ");
-  scanf("%d", &row_col);
-  // gap = swidth / row_col;
-  // printf("%f", gap);
-
-  // must do this before you do 'almost' any other graphical tasks
   swidth = 800;
   sheight = 800;
   G_init_graphics(swidth, sheight); // interactive graphics
 
   // clear the screen in a given color
-  G_rgb(0.3, 0.3, 0.3); // dark gray
+  G_rgb(0, 0, 0);
   G_clear();
 
   //===============================================
@@ -77,7 +62,6 @@ int main() {
   int key;
   key = G_wait_key(); // pause so user can see results
 
-  //   G_save_image_to_file("demo.xwd") ;
   G_save_to_bmp_file("demo.bmp");
 
 }
