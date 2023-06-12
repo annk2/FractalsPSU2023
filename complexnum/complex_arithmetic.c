@@ -44,7 +44,8 @@ int main()
   swidth = sheight = 1600;
   G_init_graphics(swidth, sheight);
 
-  mandelbrot( 0, 0, 2, 100, swidth);
+  // mandelbrot( 0, 0, 2, 100, swidth);
+  julia( 0, 0, 2, 100, swidth);
   // mandelbrot( 0, 0, 2, 100, swidth);
 
   G_wait_key();
