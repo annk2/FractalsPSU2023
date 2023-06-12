@@ -46,6 +46,7 @@ note : the 'X' in -X11 is capitalized
 
 #include "FPToolkit.c"
 #include "sierpinski.c"
+#include "pythagoras.c"
 
 int main() {
   int swidth, sheight;
@@ -58,24 +59,52 @@ int main() {
   G_rgb(0, 0, 0);
   G_clear();
 
+  // sierpinski
   //===============================================
-  double p1[2], p2[2], p3[2], m[0];
-  double depth = 4.0;
+  // double p1[2], p2[2], p3[2], m[0];
+  // double depth = 4.0;
 
-  p1[0] = 100.0;
-  p1[1] = 10.0;
-  p3[0] = 900.0;
-  p3[1] = 10.0;
+  // p1[0] = 100.0;
+  // p1[1] = 10.0;
+  // p3[0] = 900.0;
+  // p3[1] = 10.0;
 
   // m[0] = p1[0] + (p3[0] - p1[0]) * 0.5; 
   // m[1] = p1[1] + (p3[1] - p1[1]) * 0.5; 
 
-  p2[0] = p1[0] + (p3[0] - p1[0]) * 0.5; 
-  p2[1] = p1[1] + ((sqrt(3) / 2) * (p3[0] - p1[0]));
+  // p2[0] = p1[0] + (p3[0] - p1[0]) * 0.5; 
+  // p2[1] = p1[1] + ((sqrt(3) / 2) * (p3[0] - p1[0]));
   // p2[1] = m[1] + ((sqrt(3) / 2) * (p3[0] - p1[0]));
 
+  // G_rgb(1, 1, 1);
+  // sierpinski(p1, p2, p3, depth);
+
+  // pythagoras
+  //===============================================
+  double p1[2], p2[2], p3[2], p4[2];
+  double depth = 4.0;
+  double size = 100.0;
+
+  p1[0] = 400.0;
+  p1[1] = 10.0;
+  p2[0] = p1[0];
+  p2[1] = p1[1] + size;
+  p3[0] = p1[0] + size;
+  p3[1] = p2[1];
+  p4[0] = p3[0];
+  p4[1] = p1[1];
+
   G_rgb(1, 1, 1);
-  sierpinski(p1, p2, p3, depth);
+  G_rectangle(p1[0], p1[1], size, size);
+
+  // m[0] = p1[0] + (p3[0] - p1[0]) * 0.5; 
+  // m[1] = p1[1] + (p3[1] - p1[1]) * 0.5; 
+
+  // m[0] = p1[0] + (p3[0] - p1[0]) * 0.5; 
+  // m[1] = p1[1] + ((sqrt(3) / 2) * (p3[0] - p1[0]));
+  // p2[1] = m[1] + ((sqrt(3) / 2) * (p3[0] - p1[0]));
+
+  pythagoras(p2, p3, depth);
 
   int key;
   key = G_wait_key(); // pause so user can see results
