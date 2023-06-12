@@ -48,55 +48,100 @@ note : the 'X' in -X11 is capitalized
 
 struct GRAMMAR
 {
-  char[3] axiom;
-  char [3] value;
-  char [100] rule;
+  double angle;
+  char axiom;
+  char value;
+  char rule[100];
 };
 
-void set_fern()
-// FERN GRAMMAR
-// Axiom: A
-// A-> F-[[A]+A]+F[+FA]-A
-// F-> FF
+void set_fern(struct GRAMMAR grammar[5])
+{
+  grammar[0].axiom = 'A';
+  grammar[0].angle = 22.5 * (M_PI/180);
 
-// angle: 22.5
+  grammar[1].value = 'A';
+  strcpy(grammar[1].rule, "F-[[A]+A]+F[+FA]-A");
 
-// struct
-// axiom
-// rules
-// start angle
-// delta
+  grammar[2].value = 'F';
+  strcpy(grammar[2].rule, "FF");
+}
+
+void find_rule(struct GRAMMAR grammar[5], char rule[100], char value)
+{
+  for(int i = 0; i < 5; i++)
+  {
+      if(grammar[i].value == value)
+      {
+        strcpy(rule, grammar[i].rule);
+      }
+  } 
+}
+
+void string_builder(struct GRAMMAR grammar[5], char string[1000000], int depth)
+{
+  char cur;
+  int len;
+  char rule[100];
+  char hold_string[1000000];
+
+  rule[0] = '\0';
+  hold_string[0] = grammar[0].axiom;
+  hold_string[1] = '\0';
+  string[0] = grammar[0].axiom;
+  string[1] = '\0';
+
+  // strcat(hold_string, grammar[0].axiom);
+  // printf("string1: %s\n", string);
+
+  for(int i = 0; i < depth; i++)
+  {
+    printf("depth: %d\t string: %s\n", i, string);
+    len = strlen(hold_string);
+
+    for(int j = 0; j < len; j++)
+    {
+      cur = hold_string[j];
+      find_rule(grammar, rule, cur);
+      strcat(string, rule);
+    }
+
+    strcpy(hold_string, string);
+  }
+}
 
 int main() {
   int swidth, sheight;
-  struct GRAMMAR[5] grammar;
+  struct GRAMMAR grammar[5];
 
-  swidth = 1000;
-  sheight = 1000;
-  G_init_graphics(swidth, sheight); // interactive graphics
+  // swidth = 1000;
+  // sheight = 1000;
+  // G_init_graphics(swidth, sheight); // interactive graphics
 
   // clear the screen in a given color
-  G_rgb(0, 0, 0);
-  G_clear();
+  // G_rgb(0, 0, 0);
+  // G_clear();
 
   //===============================================
   char string[100000];
   string[0] = '\0';
   double start_angle = 0;
+  int depth = 3;
 
   double delta = M_PI/6; // koch
+  // double delta = 22.5 // fern, in degrees
 
-  scanf("%s", string);
+  set_fern(grammar);
 
-  // strcpy()
+  // scanf("%s", string);
 
-  G_rgb(1, 1, 1);
-  string_interpreter(grammar, string, angle);
+  // G_rgb(1, 1, 1);
+  // string_interpreter(grammar, string, grammar[0].angle);
+  string_builder(grammar, string, depth);
 
-  int key;
-  key = G_wait_key(); // pause so user can see results
+  // int key;
+  // key = G_wait_key(); // pause so user can see results
 
-  //   G_save_image_to_file("demo.xwd") ;
-  G_save_to_bmp_file("demo.bmp");
+  // //   G_save_image_to_file("demo.xwd") ;
+  // G_save_to_bmp_file("demo.bmp");
 
 }

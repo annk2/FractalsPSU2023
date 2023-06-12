@@ -10,7 +10,7 @@ void string_interpreter(char string[100000], double p[2], double distance, doubl
     int len = strlen(string);
     char cur;
     double x, y, hold_x, hold_y, angle;
-    struct state[10000];
+    struct state stack[10000];
     int top = 0;
 
     x = p[0];
@@ -27,6 +27,9 @@ void string_interpreter(char string[100000], double p[2], double distance, doubl
             hold_x = x;
             hold_y = y;
             // use cos/sin to get x and y?
+            // have to move distance
+            x = (cos(delta) * x) - (sin(delta) * y);
+            y = (cos(delta) * x) + (sin(delta) * y);
             G_line(hold_x, hold_y, x, y);
         }
         else if(cur == '+')
@@ -39,10 +42,22 @@ void string_interpreter(char string[100000], double p[2], double distance, doubl
         }
         else if(cur == '[')
         {
-
+            // push state
+            stack[top].x = x;
+            stack[top].y = y;
+            stack[top].angle = angle;
+            top++;
         }
-
+        else if(cur == ']')
+        {
+            // pop state
+            x = stack[top].x;
+            y = stack[top].y;
+            angle = stack[top].angle;
+            top--;
+        }
     }
+    
     // loop through string
     // line if letter
     // + increase angle
