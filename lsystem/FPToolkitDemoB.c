@@ -46,21 +46,35 @@ note : the 'X' in -X11 is capitalized
 
 #include "FPToolkit.c"
 
-struct GRAMMAR
+typedef struct GRAMMAR
 {
   double angle;
   double start_angle;
   double length;
+  int rule_num;
   char axiom;
   char value;
   char rule[100];
-};
+} GRAMMAR;
 
-void set_fern(struct GRAMMAR grammar[5])
+typedef struct STATE
 {
-  grammar[0].angle = 22.5;
-  grammar[0].start_angle = 90;
-  grammar[0].length = 1.0; // idk
+    double x;
+    double y;
+    double angle;
+} STATE;
+
+char u[1000000];
+char v[1000000];
+char rule[100];
+// GRAMMAR grammar[10];
+STATE my_stack[1000000];
+
+void set_plant(GRAMMAR grammar[10])
+{
+  grammar[0].angle = 20; // 22.5;
+  grammar[0].start_angle = 0;
+  grammar[0].length = 10.0;
   grammar[0].axiom = 'A';
 
   grammar[1].value = 'A';
@@ -68,82 +82,249 @@ void set_fern(struct GRAMMAR grammar[5])
 
   grammar[2].value = 'F';
   strcpy(grammar[2].rule, "FF");
+
+  grammar[0].rule_num = 3;
 }
 
-void find_rule(struct GRAMMAR grammar[5], char rule[100], char value)
+void set_koch(GRAMMAR grammar[10])
 {
-  for(int i = 0; i < 5; i++)
+  grammar[0].angle = 30;
+  grammar[0].start_angle = 0;
+  grammar[0].length = 1.0; 
+  grammar[0].axiom = 'B';
+
+  grammar[1].value = 'A';
+  strcpy(grammar[1].rule, "+A-C-A+");
+
+  grammar[2].value = 'B';
+  strcpy(grammar[2].rule, "B+C+B");
+
+  grammar[3].value = 'C';
+  strcpy(grammar[2].rule, "A-C-A");
+
+  grammar[0].rule_num = 4;
+}
+
+int find_rule(GRAMMAR grammar[10], char value)
+{
+  int num = grammar[0].rule_num;
+  for(int i = 0; i < num; i++)
   {
       if(grammar[i].value == value)
       {
         strcpy(rule, grammar[i].rule);
+        return 1;
       }
   } 
+  return 0;
 }
 
-void string_builder(struct GRAMMAR grammar[5], char string[1000000], int depth)
+void string_builder(GRAMMAR grammar[10], int depth)
 {
   char cur;
   int len;
-  char rule[100];
-  char hold_string[1000000];
 
-  rule[0] = '\0';
-  hold_string[0] = grammar[0].axiom;
-  hold_string[1] = '\0';
-  string[0] = grammar[0].axiom;
-  string[1] = '\0';
-
-  // strcat(hold_string, grammar[0].axiom);
-  // printf("string1: %s\n", string);
+  u[0] = grammar[0].axiom;
+  u[1] = '\0';
 
   for(int i = 0; i < depth; i++)
   {
-    printf("depth: %d\t string: %s\n", i, string);
-    len = strlen(hold_string);
+    v[0] = '\0';
+    len = strlen(u);
 
     for(int j = 0; j < len; j++)
     {
-      cur = hold_string[j];
-      find_rule(grammar, rule, cur);
-      strcat(string, rule);
+      cur = u[j];
+
+      if (find_rule(grammar, cur) == 1)
+      {
+        strcat(v, rule);
+      }
+      else
+      {
+        char temp[2];
+        temp[0] = cur;
+        temp[1] = '\0';
+        strcat(v, temp);
+      }
     }
 
-    strcpy(hold_string, string);
+    strcpy(u, v);
   }
 }
 
+void string_builder_koch(GRAMMAR grammar[10], char u[1000000], int depth)
+{
+  char cur;
+  int len;
+
+  u[0] = grammar[0].axiom;
+  u[1] = '\0';
+
+  for(int i = 0; i < depth; i++)
+  {
+    v[0] = '\0';
+    len = strlen(u);
+
+    for(int j = 0; j < len; j++)
+    {
+      cur = u[j];
+
+      if (find_rule(grammar, cur) == 1)
+      {
+        strcat(v, rule);
+      }
+      else
+      {
+        char temp[2];
+        temp[0] = cur;
+        temp[1] = '\0';
+        strcat(v, temp);
+      }
+    }
+
+    strcpy(u, v);
+  }
+}
+
+void string_interpreter_koch(GRAMMAR grammar[10], char u[1000000], double p[2])
+{
+    int len = strlen(u);
+    char cur;
+    double x, y, hold_x, hold_y;
+    int top = -1;
+
+    x = p[0];
+    y = p[1];
+
+    double angle = grammar[0].start_angle;
+    double delta = grammar[0].angle;
+    double length = grammar[0].length;
+
+    for (int i = 0; i<len; i++)
+    {
+        cur = u[i];
+
+        if(cur >= 'A' && cur <= 'Z')
+        {
+            hold_x = x + length * cos(angle * (M_PI / 180.0));
+            hold_y = y + length * sin(angle * (M_PI / 180.0));
+            G_line(hold_x, hold_y, x, y);
+            x = hold_x;
+            y = hold_y;
+        }
+        else if(cur == '+')
+        {
+            angle += delta;
+        }
+        else if(cur == '-')
+        {
+            angle -= delta;
+        }
+    }
+}
+
+void string_interpreter_plant(GRAMMAR grammar[10], double p[2])
+{
+    int len = strlen(u);
+    char cur;
+    double x, y, hold_x, hold_y;
+    char koch_string[1000000];
+    int top = -1;
+
+    GRAMMAR koch_grammar[10];
+    set_koch(koch_grammar);
+    string_builder_koch(koch_grammar, koch_string, 7);
+
+    x = p[0];
+    y = p[1];
+
+    double angle = grammar[0].start_angle;
+    double delta = grammar[0].angle;
+    double length = grammar[0].length;
+
+    for (int i = 0; i<len; i++)
+    {
+        cur = u[i];
+        G_rgb(0.647, 0.165, 0.165);
+
+        if(cur >= 'A' && cur <= 'Z')
+        {
+            hold_x = x + length * cos(angle * (M_PI / 180.0));
+            hold_y = y + length * sin(angle * (M_PI / 180.0));
+            G_line(hold_x, hold_y, x, y);
+            x = hold_x;
+            y = hold_y;
+        }
+        else if(cur == '+')
+        {
+            angle += delta;
+        }
+        else if(cur == '-')
+        {
+            angle -= delta;
+        }
+        else if(cur == '[')
+        {
+            // push state
+            top++;
+            my_stack[top].x = x;
+            my_stack[top].y = y;
+            my_stack[top].angle = angle;
+        }
+        else if(cur == ']')
+        {
+            // pop state
+              double q[2];
+              q[0] = x;
+              q[1] = y;
+              if(i % 10 == 0)
+              {
+                G_rgb(0.8, 0.5, 0.5);
+              }
+              else
+              {
+                G_rgb(1, 0.753, 0.796);
+              }
+              string_interpreter_koch(koch_grammar, koch_string, q);
+            x = my_stack[top].x;
+            y = my_stack[top].y;
+            angle = my_stack[top].angle;
+            top--;
+        }
+    }
+}
+
+
+
 int main() {
   int swidth, sheight;
-  struct GRAMMAR grammar[5];
 
-  // swidth = 1000;
-  // sheight = 1000;
-  // G_init_graphics(swidth, sheight); // interactive graphics
+  swidth = 1000;
+  sheight = 1000;
+  G_init_graphics(swidth, sheight); // interactive graphics
 
   // clear the screen in a given color
-  // G_rgb(0, 0, 0);
-  // G_clear();
+  G_rgb(1, 1, 1);
+  G_clear();
+
 
   //===============================================
-  char string[100000];
-  string[0] = '\0';
-  double start_angle = 0;
-  int depth = 3;
+  double p[2];
+  GRAMMAR grammar[10];
 
-  double delta = M_PI/6; // koch
-  // double delta = 22.5 // fern, in degrees
+  int depth = 5;
 
-  set_fern(grammar);
+  p[0] = 0;
+  p[1] = 500.0;
 
-  scanf("%s", string);
+  set_plant(grammar);
 
-  // G_rgb(1, 1, 1);
-  string_interpreter(string, grammar, p);
-  // string_builder(grammar, string, depth);
+  string_builder(grammar, depth);
+  string_interpreter_plant(grammar, p);
 
-  // int key;
-  // key = G_wait_key(); // pause so user can see results
+  int key;
+  key = G_wait_key(); // pause so user can see results
 
   // //   G_save_image_to_file("demo.xwd") ;
   // G_save_to_bmp_file("demo.bmp");
