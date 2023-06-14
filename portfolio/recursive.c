@@ -49,6 +49,7 @@ note : the 'X' in -X11 is capitalized
 #include "pythagoras.c"
 #include "ely.c"
 #include "write_text.c"
+#include "ifs.c"
 
 void recursive() {
   int swidth, sheight;
@@ -58,7 +59,7 @@ void recursive() {
   G_init_graphics(swidth, sheight); // interactive graphics
 
   // clear the screen in a given color
-  G_rgb(1, 1, 1);
+  G_rgb(0, 0, 0);
   G_clear();
 
   //===============================================
@@ -86,6 +87,10 @@ void recursive() {
   p_textx = 200.0;
   p_texty = 700.0;
 
+  sleep(1);
+  full_to_light(swidth);
+  G_rgb(1, 1, 1);
+  G_clear();
   G_rgb(0, 0, 0);
   ely_eyes_closed(p_ely, size_ely);
 
