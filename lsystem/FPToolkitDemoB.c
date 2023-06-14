@@ -49,6 +49,8 @@ note : the 'X' in -X11 is capitalized
 struct GRAMMAR
 {
   double angle;
+  double start_angle;
+  double length;
   char axiom;
   char value;
   char rule[100];
@@ -56,8 +58,10 @@ struct GRAMMAR
 
 void set_fern(struct GRAMMAR grammar[5])
 {
+  grammar[0].angle = 22.5;
+  grammar[0].start_angle = 90;
+  grammar[0].length = 1.0; // idk
   grammar[0].axiom = 'A';
-  grammar[0].angle = 22.5 * (M_PI/180);
 
   grammar[1].value = 'A';
   strcpy(grammar[1].rule, "F-[[A]+A]+F[+FA]-A");
@@ -132,11 +136,11 @@ int main() {
 
   set_fern(grammar);
 
-  // scanf("%s", string);
+  scanf("%s", string);
 
   // G_rgb(1, 1, 1);
-  // string_interpreter(grammar, string, grammar[0].angle);
-  string_builder(grammar, string, depth);
+  string_interpreter(string, grammar, p);
+  // string_builder(grammar, string, depth);
 
   // int key;
   // key = G_wait_key(); // pause so user can see results

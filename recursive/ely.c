@@ -15,7 +15,7 @@ void ely(double p[2], double size)
 
     double glasses_sep, glasses_size, glasses_left[2], glasses_right[2];
     glasses_sep = size / 2.0;
-    glasses_size = size / 3.0;
+    glasses_size = size / 5.0;
     glasses_left[0] = p[0] - glasses_sep;
     glasses_left[1] = p[1];
     glasses_right[0] = p[0] + glasses_sep;

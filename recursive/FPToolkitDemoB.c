@@ -83,46 +83,33 @@ int main() {
 
   // pythagoras
   //===============================================
-  double p1[2], p2[2], p3[2], p4[2];
+  double p1[2], p2[2];
   double p_ely[2], p_text[2];
-  double depth = 4.0;
+  double depth = 7.0;
   double size_pythagoras = 100.0;
   double size_ely = 50.0;
   double size_text = 50.0;
 
   char text[100];
-  strcpy(text, "AA");
+  strcpy(text, "WAKE UP!");
 
-  p_ely[0] = 500.0;
+  p_ely[0] = swidth / 2.0;
   p_ely[1] = size_ely * 5;
 
-  p_text[0] = 500.0;
+  p_text[0] = swidth / 2.0;
   p_text[1] = 800.0;
 
   p1[0] = 400.0;
   p1[1] = 10.0;
-  p2[0] = p1[0];
-  p2[1] = p1[1] + size_pythagoras;
-  p3[0] = p1[0] + size_pythagoras ;
-  p3[1] = p2[1];
-  p4[0] = p3[0];
-  p4[1] = p1[1];
+  p2[0] = p1[0] + size_pythagoras ;
+  p2[1] = p1[1];
 
   G_rgb(0, 0, 0);
-  // G_rectangle(p1[0], p1[1], size, size);
 
-  // m[0] = p1[0] + (p3[0] - p1[0]) * 0.5; 
-  // m[1] = p1[1] + (p3[1] - p1[1]) * 0.5; 
+  // ely(p_ely, size_ely);
+  // write_text(p_text, text, size_text);
 
-  // m[0] = p1[0] + (p3[0] - p1[0]) * 0.5; 
-  // m[1] = p1[1] + ((sqrt(3) / 2) * (p3[0] - p1[0]));
-  // p2[1] = m[1] + ((sqrt(3) / 2) * (p3[0] - p1[0]));
-
-
-  ely(p_ely, size_ely);
-  write_text(p_text, text, size_text);
-
-  // pythagoras(p2, p3, depth);
+  pythagoras(p1, p2, depth);
 
   int key;
   key = G_wait_key(); // pause so user can see results
