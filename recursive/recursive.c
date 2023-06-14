@@ -61,37 +61,17 @@ int main() {
   G_rgb(1, 1, 1);
   G_clear();
 
-  // sierpinski
-  //===============================================
-  // double p1[2], p2[2], p3[2], m[0];
-  // double depth = 4.0;
-
-  // p1[0] = 100.0;
-  // p1[1] = 10.0;
-  // p3[0] = 900.0;
-  // p3[1] = 10.0;
-
-  // m[0] = p1[0] + (p3[0] - p1[0]) * 0.5; 
-  // m[1] = p1[1] + (p3[1] - p1[1]) * 0.5; 
-
-  // p2[0] = p1[0] + (p3[0] - p1[0]) * 0.5; 
-  // p2[1] = p1[1] + ((sqrt(3) / 2) * (p3[0] - p1[0]));
-  // p2[1] = m[1] + ((sqrt(3) / 2) * (p3[0] - p1[0]));
-
-  // G_rgb(1, 1, 1);
-  // sierpinski(p1, p2, p3, depth);
-
-  // pythagoras
   //===============================================
   double p1[2], p2[2];
-  double p_ely[2], p_text[2];
+  double p_ely[2];
+  double p_textx, p_texty;
   double depth = 7.0;
-  // double size_pythagoras = 100.0;
   double size_pythagoras = 70.0;
   int num_trees = 5;
   int layers = 4;
-  double size_ely = 50.0;
+  double size_ely = 60.0;
   double size_text = 50.0;
+  double size_text_large = 100.0;
   double grad = 0.4;
 
   p1[0] = 5.0;
@@ -99,50 +79,95 @@ int main() {
 
 
   char text[100];
-  strcpy(text, "WAKE UP!");
 
-  p_ely[0] = swidth / 2.0;
+  p_ely[0] = 200.0;
   p_ely[1] = size_ely * 5;
 
-  p_text[0] = swidth / 2.0;
-  p_text[1] = 900.0;
+  p_textx = 200.0;
+  p_texty = 700.0;
 
-  for (int i = 1; i <= layers; i++)
+  G_rgb(0, 0, 0);
+  ely_eyes_closed(p_ely, size_ely);
+
+  G_rgb(1, 0, 0);
+  strcpy(text, "WAKE");
+  write_text(p_textx, p_texty, text, size_text_large);
+  strcpy(text, "UP!");
+  write_text(p_textx, p_texty - size_text_large - 10.0, text, size_text_large);
+
+  for (int i = 0; i < 3; i++)
   {
-    p1[0] = 10.0;
-
-    if (i % 2 == 0)
-    {
-      p1[0] += (2.0 * size_pythagoras);
-    }
-
-    p1[1] -= (3.0 * size_pythagoras);
-    p2[1] = p1[1];
-    G_rgb(0, grad, 0);
-
-    for (int j = 0; j < num_trees; j++)
-    {
-      // double r = drand48() * 10.0;
-      p1[0] += (4.0 * size_pythagoras);
-      p2[0] = p1[0] + size_pythagoras ;
-
-      pythagoras(p1, p2, depth, grad);
-    }
-
-    // p1[0] += size_pythagoras;
-    grad += 0.2;
-    // --num_trees;
+    ely_eyes_closed(p_ely, size_ely);
+    G_display_image();
+    usleep(300000);
+    ely(p_ely, size_ely);
+    G_display_image();
+    usleep(300000);
   }
 
-  // G_rgb(0, 0, 0);
-  // ely(p_ely, size_ely);
-  // write_text(p_text, text, size_text);
+  G_rgb(1, 1, 1);
+  G_clear();
+  ely(p_ely, size_ely);
+  G_rgb(1, 0, 0);
+  strcpy(text, "!");
+  write_text(p_ely[0], p_ely[1] + 100.0,  text, size_text_large);
+  usleep(400000);
 
- 
+  G_rgb(1, 1, 1);
+  G_clear();
+  ely(p_ely, size_ely);
+  G_rgb(0, 0, 0);
+  strcpy(text, "ITS TIME TO");
+  write_text(p_textx, p_texty, text, size_text);
+  strcpy(text, "EXPLORE");
+  write_text(p_textx, p_texty - (size_text * 2.0),  text, size_text);
+  G_rgb(1, 0, 0);
+  strcpy(text, "FRACTALS!");
+  write_text(p_textx, p_texty - (size_text * 4.0),  text, size_text);
+  usleep(500000);
+
+  G_rgb(1, 1, 1);
+  G_clear();
+  ely(p_ely, size_ely);
+
+  double p_tree[2];
+  p_tree[0] = 500.0;
+  p_tree[1] = 900.0;
+  for (int j = 0; j < 2; j++)
+  {
+    pythagoras_grow(p_tree);
+    G_rgb(1, 1, 1);
+    G_rgb(1, 0, 0);
+    strcpy(text, "!");
+    write_text(p_ely[0], p_ely[1] + 100.0,  text, size_text_large);
+    usleep(300000);
+    G_rgb(1, 1, 1);
+    G_clear();
+    ely(p_ely, size_ely);
+    p_tree[0] -= 300.0;
+  }
+
+  pythagoras_grow(p_tree);
+  G_rgb(1, 0, 0);
+  strcpy(text, "!!!!!");
+  write_text(p_ely[0], p_ely[1] + 100.0,  text, size_text_large);
+  usleep(300000);
+
+  G_rgb(1, 1, 1);
+  G_clear();
+  ely(p_ely, size_ely);
+  G_rgb(0, 0, 0);
+  strcpy(text, "OOPS SORRY...");
+  write_text(p_textx, p_texty, text, size_text);
+  usleep(700000);
+  G_rgb(1, 1, 1);
+  G_clear();
+  ely(p_ely, size_ely);
+  G_rgb(1, 0, 0);
+  strcpy(text, "NEXT!");
+  write_text(p_textx, p_texty, text, size_text_large);
+  usleep(500000);
 
   int key;
   key = G_wait_key(); // pause so user can see results
-
-  G_save_to_bmp_file("demo.bmp");
-
 }
