@@ -209,10 +209,10 @@ void fern(double swidth)
 
 void ifs() {
 
-    double swidth = 1000.0;
-    double sheight = 1000.0;
-  // must do this before you do 'almost' any other graphical tasks
-  G_init_graphics(swidth, sheight); // interactive graphics
+//     double swidth = 1000.0;
+//     double sheight = 1000.0;
+//   // must do this before you do 'almost' any other graphical tasks
+//   G_init_graphics(swidth, sheight); // interactive graphics
 
   // clear the screen in a given color
   G_rgb(1, 1, 1); // dark gray
@@ -267,7 +267,7 @@ void ifs() {
         usleep(10000);
         p_fern[0] += 5.0;
     }
-    usleep(400000);
+    usleep(700000);
 
   G_rgb(1, 0, 0);
   strcpy(text, "!");
@@ -298,6 +298,7 @@ void ifs() {
         for (int i = 0 ; i < 3; i++)
         {
             fern(width);
+            usleep(20000);
             width += 200.0;
             G_rgb(1, 1, 1);
             G_clear();
@@ -354,7 +355,7 @@ strcpy(text, "EAT ONE..");
   G_rgb(1, 0, 0);
   strcpy(text, "VISIONS...");
   write_text(p_textx, p_texty - (size_text * 4.0), text, size_text);
-  usleep(800000);
+  usleep(1000000);
 
     double p_ely_zoom[2];
     p_ely_zoom[0] = p_ely[0] * 4.0;
@@ -372,10 +373,10 @@ strcpy(text, "EAT ONE..");
       G_clear();
 
 
-  int key;
-  key = G_wait_key(); // pause so user can see results
+//   int key;
+//   key = G_wait_key(); // pause so user can see results
 
-  //   G_save_image_to_file("demo.xwd") ;
-  G_save_to_bmp_file("demo.bmp");
+//   //   G_save_image_to_file("demo.xwd") ;
+//   G_save_to_bmp_file("demo.bmp");
 
 }

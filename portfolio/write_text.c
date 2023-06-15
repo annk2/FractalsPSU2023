@@ -265,7 +265,7 @@ void M(double p[2], double size)
     G_fill_rectangle(A[0], A[1], font_width, size_tall / 2.0);
 }
 
-void N(double p[2], double size)
+void Nn(double p[2], double size)
 {
     double A[2];
     double font_width = size / 10.0;
@@ -489,7 +489,7 @@ void W(double p[2], double size)
     G_fill_rectangle(A[0], A[1], font_width, size_tall / 2.0);
 }
 
-void X(double p[2], double size)
+void Xx(double p[2], double size)
 {
     double A[2], B[2];
     double font_width = size / 10.0;
@@ -515,7 +515,7 @@ void X(double p[2], double size)
 
 }
 
-void Y(double p[2], double size)
+void Yy(double p[2], double size)
 {
     double A[2], B[2];
     double font_width = size / 10.0;
@@ -655,7 +655,7 @@ void write_text(double px, double py, char string[1000], double size)
         }
         else if (cur == 'N')
         {
-            N(q, size);
+            Nn(q, size);
         }
         else if (cur == 'M')
         {
@@ -695,11 +695,11 @@ void write_text(double px, double py, char string[1000], double size)
         }
         else if (cur == 'X')
         {
-            X(q, size);
+            Xx(q, size);
         }
         else if (cur == 'Y')
         {
-            Y(q, size);
+            Yy(q, size);
         }
         else if (cur == '.')
         {
@@ -714,7 +714,7 @@ void write_text(double px, double py, char string[1000], double size)
             QUEST(q, size);
         }
 
-        usleep(100000);
+        usleep(200000);
         G_display_image();
         q[0] += size;
     }

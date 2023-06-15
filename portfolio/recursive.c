@@ -52,11 +52,11 @@ note : the 'X' in -X11 is capitalized
 #include "ifs.c"
 
 void recursive() {
-  int swidth, sheight;
+  // int swidth, sheight;
 
-  swidth = 1000;
-  sheight = 1000;
-  G_init_graphics(swidth, sheight); // interactive graphics
+  // swidth = 1000;
+  // sheight = 1000;
+  // G_init_graphics(swidth, sheight); // interactive graphics
 
   // clear the screen in a given color
   G_rgb(0, 0, 0);
@@ -125,7 +125,7 @@ void recursive() {
   G_rgb(1, 0, 0);
   strcpy(text, "FRACTALS!");
   write_text(p_textx, p_texty - (size_text * 4.0),  text, size_text);
-  usleep(500000);
+  usleep(1000000);
 
   ely_clear(p_ely, size_ely);
 
@@ -154,7 +154,7 @@ void recursive() {
   G_rgb(0, 0, 0);
   strcpy(text, "OOPS SORRY...");
   write_text(p_textx, p_texty, text, size_text);
-  usleep(700000);
+  usleep(800000);
 
   ely_clear(p_ely, size_ely);
   G_rgb(0, 0, 0);
@@ -162,6 +162,6 @@ void recursive() {
   write_text(p_textx, p_texty, text, size_text_large);
   usleep(500000);
 
-  int key;
-  key = G_wait_key(); // pause so user can see results
+  // int key;
+  // key = G_wait_key(); // pause so user can see results
 }

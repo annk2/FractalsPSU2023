@@ -307,11 +307,11 @@ void string_interpreter_plant(GRAMMAR grammar[10], double p[2])
 
 
 void lsystem() {
-  int swidth, sheight;
+  // int swidth, sheight;
 
-  swidth = 1000;
-  sheight = 1000;
-  G_init_graphics(swidth, sheight); // interactive graphics
+  // swidth = 1000;
+  // sheight = 1000;
+  // G_init_graphics(swidth, sheight); // interactive graphics
 
   // clear the screen in a given color
   G_rgb(1, 1, 1);
@@ -368,10 +368,11 @@ void lsystem() {
   usleep(700000);
 
   ely_clear(p_ely, size_ely);
+
   G_rgb(0, 0, 0);
   strcpy(text, "...LOOK UP!");
   write_text(p_textx, p_texty, text, size_text);
-  usleep(700000);
+  usleep(900000);
 
   ely_eyes_closed(p_ely, size_ely);
   G_display_image();
@@ -395,8 +396,8 @@ void lsystem() {
   write_text(p_textx, p_texty, text, size_text_large);
   usleep(500000);
 
-  int key;
-  key = G_wait_key(); // pause so user can see results
+  // int key;
+  // key = G_wait_key(); // pause so user can see results
 
   // //   G_save_image_to_file("demo.xwd") ;
   // G_save_to_bmp_file("demo.bmp");
